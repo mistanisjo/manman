@@ -58,7 +58,7 @@ const Index = () => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar
           chatHistory={chatHistory}
           onSelectChat={handleSelectChat}
@@ -66,15 +66,15 @@ const Index = () => {
           onDeleteChat={handleDeleteChat}
           currentChatId={currentChatId}
         />
-        <main className="flex-1 flex flex-col">
-          {/* Global header with sidebar trigger */}
-          <header className="h-14 flex items-center border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <main className="flex-1 flex flex-col min-w-0">
+          {/* Global header with sidebar trigger - only when needed */}
+          <header className="h-14 flex items-center border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10">
             <SidebarTrigger className="ml-4" />
-            <div className="flex-1 text-center">
-              <h1 className="text-lg font-semibold">AI Chat Assistant</h1>
+            <div className="flex-1 text-center pr-14">
+              <h1 className="text-lg font-semibold text-foreground">AI Chat Assistant</h1>
             </div>
           </header>
-          <div className="flex-1">
+          <div className="flex-1 overflow-hidden">
             <ChatInterface currentChatId={currentChatId} />
           </div>
         </main>
