@@ -20,7 +20,11 @@ const AI_RESPONSES = [
   "Excellent question! I think the key here is...",
 ];
 
-const ChatInterface = () => {
+interface ChatInterfaceProps {
+  currentChatId: string;
+}
+
+const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -71,21 +75,7 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-6xl mx-auto px-4">
-      {/* Header */}
-      <motion.div
-        className="py-6 text-center"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent">
-          AI Chat Assistant
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          Your intelligent conversation partner
-        </p>
-      </motion.div>
+    <div className="flex flex-col h-full max-w-6xl mx-auto px-4">{/* Removed header section since it's now in the main layout */}
 
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-4 scrollbar-hide">
