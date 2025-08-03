@@ -8,7 +8,6 @@ interface ChatBubbleProps {
   isUser: boolean;
   timestamp?: Date;
   isTyping?: boolean;
-  isStreaming?: boolean;
 }
 
 const TypingIndicator = () => (
@@ -31,7 +30,7 @@ const TypingIndicator = () => (
   </div>
 );
 
-const ChatBubble = ({ message, isUser, timestamp, isTyping, isStreaming }: ChatBubbleProps) => {
+const ChatBubble = ({ message, isUser, timestamp, isTyping }: ChatBubbleProps) => {
   return (
     <motion.div
       className={cn(
@@ -75,20 +74,6 @@ const ChatBubble = ({ message, isUser, timestamp, isTyping, isStreaming }: ChatB
       >
         {isTyping ? (
           <TypingIndicator />
-        ) : isStreaming ? (
-          <div className="relative">
-            <p className={cn(
-              "text-sm leading-relaxed whitespace-pre-wrap break-words",
-              isUser ? "text-user-foreground" : "text-ai-foreground"
-            )}>
-              {message}
-            </p>
-            <motion.div
-              className="inline-block w-2 h-5 bg-current ml-1"
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
-          </div>
         ) : (
           <p className={cn(
             "text-sm leading-relaxed whitespace-pre-wrap break-words",

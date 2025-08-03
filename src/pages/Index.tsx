@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChatInterface } from "@/components/chat-interface";
-import { openAIService, ChatSession } from "@/lib/openai";
-import { toast } from "@/components/ui/sonner";
 
 interface ChatHistory {
   id: string;
@@ -15,90 +12,58 @@ interface ChatHistory {
 
 const Index = () => {
   const [currentChatId, setCurrentChatId] = useState<string>("welcome");
-  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
-
-  // Load chat sessions on mount
-  useEffect(() => {
-    loadChatHistory();
-  }, []);
-
-  const loadChatHistory = () => {
-    const sessions = openAIService.getAllSessions();
-    const history: ChatHistory[] = sessions.map(session => {
-      const lastUserMessage = session.messages
-        .filter(m => m.role === 'user')
-        .pop();
-      const lastAssistantMessage = session.messages
-        .filter(m => m.role === 'assistant')
-        .pop();
-      
-      const lastMessage = lastAssistantMessage?.content || 
-                         lastUserMessage?.content || 
-                         "Start a conversation...";
-
-      return {
-        id: session.id,
-        title: session.title,
-        lastMessage: lastMessage.length > 50 
-          ? lastMessage.substring(0, 50) + "..." 
-          : lastMessage,
-        timestamp: session.updatedAt
-      };
-    });
-
-    setChatHistory(history);
-
-    // If no sessions exist, create a welcome session
-    if (sessions.length === 0) {
-      const welcomeSession = openAIService.createSession("Welcome Chat");
-      setCurrentChatId(welcomeSession.id);
-      loadChatHistory(); // Reload to include the new session
-    } else if (!sessions.find(s => s.id === currentChatId)) {
-      // If current chat doesn't exist, switch to the first available
-      setCurrentChatId(sessions[0].id);
-    }
-  };
+  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([
+    {
+      id: "welcome",
+      title: "Welcome Chat",
+      lastMessage: "Hello! I'm your AI assistant...",
+      timestamp: new Date(),
+    },
+    {
+      id: "2",
+      title: "React Discussion",
+      lastMessage: "Let's talk about React components...",
+      timestamp: new Date(Date.now() - 1000 * 60 * 30),
+    },
+    {
+      id: "3",
+      title: "AI Development",
+      lastMessage: "How can I improve my coding skills?",
+      timestamp: new Date(Date.now() - 1000 * 60 * 60),
+    },
+  ]);
 
   const handleSelectChat = (chatId: string) => {
     setCurrentChatId(chatId);
   };
 
   const handleNewChat = () => {
-    try {
-      const newSession = openAIService.createSession("New Chat");
-      setCurrentChatId(newSession.id);
-      loadChatHistory(); // Reload to include the new session
-      toast.success("New chat created");
-    } catch (error) {
-      console.error('Failed to create new chat:', error);
-      toast.error("Failed to create new chat");
-    }
+    const newChat: ChatHistory = {
+      id: Date.now().toString(),
+      title: "New Chat",
+      lastMessage: "Start a conversation...",
+      timestamp: new Date(),
+    };
+    setChatHistory(prev => [newChat, ...prev]);
+    setCurrentChatId(newChat.id);
   };
 
   const handleDeleteChat = (chatId: string) => {
-    try {
-      const deleted = openAIService.deleteSession(chatId);
-      if (deleted) {
-        loadChatHistory();
-        
-        // If we deleted the current chat, switch to another one
-        if (currentChatId === chatId) {
-          const remainingSessions = openAIService.getAllSessions();
-          if (remainingSessions.length > 0) {
-            setCurrentChatId(remainingSessions[0].id);
-          } else {
-            // Create a new chat if no chats remain
-            const newSession = openAIService.createSession("Welcome Chat");
-            setCurrentChatId(newSession.id);
-            loadChatHistory();
-          }
-        }
-        
-        toast.success("Chat deleted");
-      }
-    } catch (error) {
-      console.error('Failed to delete chat:', error);
-      toast.error("Failed to delete chat");
+    const remainingChats = chatHistory.filter(chat => chat.id !== chatId);
+    setChatHistory(remainingChats);
+    
+    if (currentChatId === chatId && remainingChats.length > 0) {
+      setCurrentChatId(remainingChats[0].id);
+    } else if (remainingChats.length === 0) {
+      // Create a new default chat if all chats are deleted
+      const defaultChat = {
+        id: "welcome",
+        title: "Welcome Chat",
+        lastMessage: "Hello! I'm your AI assistant...",
+        timestamp: new Date(),
+      };
+      setChatHistory([defaultChat]);
+      setCurrentChatId("welcome");
     }
   };
 
