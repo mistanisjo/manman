@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Core colors - Light mode */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+
+    --radius: 0.5rem;
+
+    /* Glass morphism tokens - Light mode */
+    --glass-bg: 255 255 255 / 0.8;
+    --glass-border: 0 0% 0% / 0.1;
+    --glass-blur: 16px;
+    
+    /* User bubble - Light mode */
+    --user-bg: 217 91% 60%;
+    --user-foreground: 0 0% 98%;
+    --user-glass: 217 91% 60% / 0.1;
+    
+    /* AI bubble - Light mode */
+    --ai-bg: 240 4.8% 95.9%;
+    --ai-foreground: 240 10% 3.9%;
+    --ai-glass: 0 0% 0% / 0.05;
+    
+    /* Chat background gradient - Light mode */
+    --chat-bg-from: 0 0% 100%;
+    --chat-bg-to: 240 4.8% 98%;
+
+    /* Sidebar tokens - Light mode */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Chat layout tokens - Light mode */
+    --chat-sidebar-width: 20rem;
+    --chat-sidebar-width-collapsed: 4rem;
+  }
+
+  .dark {
+    /* Core colors - Dark mode */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    
+    /* Glass morphism tokens - Dark mode */
+    --glass-bg: 0 0% 100% / 0.05;
+    --glass-border: 0 0% 100% / 0.1;
+    --glass-blur: 16px;
+    
+    /* User bubble - Dark mode */
+    --user-bg: 217 91% 60%;
+    --user-foreground: 0 0% 98%;
+    --user-glass: 217 91% 60% / 0.1;
+    
+    /* AI bubble - Dark mode */
+    --ai-bg: 240 3.7% 15.9%;
+    --ai-foreground: 0 0% 98%;
+    --ai-glass: 0 0% 100% / 0.05;
+    
+    /* Chat background gradient - Dark mode */
+    --chat-bg-from: 240 10% 3.9%;
+    --chat-bg-to: 240 5.9% 10%;
+
+    /* Sidebar tokens - Dark mode */
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Chat layout tokens - Dark mode */
+    --chat-sidebar-width: 20rem;
+    --chat-sidebar-width-collapsed: 4rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-[hsl(var(--chat-bg-from))] to-[hsl(var(--chat-bg-to))] text-foreground transition-colors duration-300;
+  }
+  
+  /* Scrollbar styling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Smooth transitions for layout changes */
+  .sidebar-transition {
+    transition: margin-left 200ms ease-linear, width 200ms ease-linear;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid hsla(var(--glass-border));
+  }
+  
+  .user-bubble {
+    background: linear-gradient(135deg, hsl(var(--user-bg)), hsl(var(--user-bg)) 50%, hsl(var(--user-bg)) 100%);
+    color: hsl(var(--user-foreground));
+  }
+  
+  .ai-bubble {
+    background: hsla(var(--ai-glass));
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid hsla(var(--glass-border));
+    color: hsl(var(--ai-foreground));
+  }
+  
+  /* Enhanced glass effect for input */
+  .glass-input {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(16px);
+    border: 1px solid hsla(var(--glass-border));
+    box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.1);
+  }
+  
+  .dark .glass-input {
+    box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.3);
+  }
+}
