@@ -59,6 +59,32 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- OpenAI API integration
+
+## Environment Setup
+
+1. Copy `.env.example` to `.env`
+2. Add your OpenAI API key to the `.env` file:
+   ```
+   VITE_OPENAI_API_KEY=your_openai_api_key_here
+   ```
+
+**Important Security Note**: This implementation exposes the OpenAI API key in the browser for development purposes. In production, you should:
+- Use a backend proxy to handle OpenAI API calls
+- Never expose API keys in client-side code
+- Implement proper authentication and rate limiting
+
+## Features
+
+- **Real-time AI Chat**: Powered by OpenAI's GPT-4o-mini model
+- **Streaming Responses**: Real-time message streaming for better UX
+- **Conversation Memory**: Full conversation context maintained
+- **Persistent Storage**: Chat history saved in localStorage
+- **Multiple Chat Sessions**: Create and manage multiple conversations
+- **System Instructions**: Customizable AI behavior and personality
+- **Modern UI**: Glass morphism design with dark/light themes
+- **Responsive Design**: Works on desktop and mobile devices
+- **Error Handling**: Comprehensive error handling and user feedback
 
 ## How can I deploy this project?
 
