@@ -70,7 +70,7 @@ export function AppSidebar({
     <Sidebar className={collapsed ? "w-16" : "w-80"} collapsible="icon">
       <SidebarContent className="flex flex-col h-full">
         {/* Header */}
-        <div className="p-4 border-b border-sidebar-border">
+        <div className={`p-4 border-b border-sidebar-border ${collapsed ? "flex flex-col items-center" : ""}`}>
           {!collapsed && (
             <div className="mb-4">
               <h2 className="text-lg font-semibold text-sidebar-foreground">
@@ -94,13 +94,16 @@ export function AppSidebar({
           )}
           
           {collapsed && (
-            <Button
-              onClick={onNewChat}
-              className="w-full bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground p-2"
-              size="sm"
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
+            <div className="flex flex-col items-center space-y-2">
+              <Button
+                onClick={onNewChat}
+                className="w-10 h-10 bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground p-0 rounded-full"
+                size="sm"
+                title="New Chat"
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
           )}
         </div>
 
@@ -110,7 +113,7 @@ export function AppSidebar({
             {!collapsed ? "Recent Chats" : ""}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
+            <SidebarMenu className={collapsed ? "space-y-3 mt-4" : "space-y-2"}>
               {chatHistory.map((chat) => (
                 <SidebarMenuItem key={chat.id}>
                   <SidebarMenuButton
@@ -119,13 +122,14 @@ export function AppSidebar({
                       currentChatId === chat.id
                         ? "bg-sidebar-accent text-sidebar-accent-foreground"
                         : "hover:bg-sidebar-accent/50"
-                    }`}
+                    } ${collapsed ? "justify-center p-2 rounded-full w-10 h-10 mx-auto" : "p-3 rounded-lg"}`}
                     onMouseEnter={() => setHoveredChat(chat.id)}
                     onMouseLeave={() => setHoveredChat(null)}
                   >
                     <div
                       onClick={() => onSelectChat(chat.id)}
-                      className="flex items-center gap-3 p-2 rounded-md"
+                      className={`flex items-center gap-3 ${collapsed ? "justify-center" : ""}`}
+                      title={collapsed ? chat.title : ""}
                     >
                       <MessageSquare className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && (
@@ -160,32 +164,33 @@ export function AppSidebar({
         </SidebarGroup>
 
         {/* Account Management */}
-        <div className="mt-auto border-t border-sidebar-border p-4 space-y-3">
+        <div className={`mt-auto border-t border-sidebar-border p-4 space-y-3 ${collapsed ? "flex flex-col items-center" : ""}`}>
           {/* Theme Toggle */}
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleTheme}
-            className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent"
+            className={`${collapsed ? "w-10 h-10 p-0 rounded-full" : "w-full justify-start"} text-sidebar-foreground hover:bg-sidebar-accent`}
+            title={collapsed ? (theme === "dark" ? "Light Mode" : "Dark Mode") : ""}
           >
             {theme === "dark" ? (
-              <Sun className="h-4 w-4 mr-2" />
+              <Sun className="h-4 w-4" />
             ) : (
-              <Moon className="h-4 w-4 mr-2" />
+              <Moon className="h-4 w-4" />
             )}
-            {!collapsed && (theme === "dark" ? "Light Mode" : "Dark Mode")}
+            {!collapsed && <span className="ml-2">{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>}
           </Button>
 
-          <Separator />
+          {!collapsed && <Separator />}
 
           {/* User Account Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="w-full justify-start p-2 h-auto hover:bg-sidebar-accent"
+                className={`${collapsed ? "w-10 h-10 p-0 rounded-full" : "w-full justify-start p-2 h-auto"} hover:bg-sidebar-accent`}
               >
-                <div className="flex items-center gap-3 w-full">
+                <div className={`flex items-center gap-3 ${collapsed ? "justify-center" : "w-full"}`}>
                   <Avatar className="h-8 w-8">
                     <AvatarImage src="/placeholder-user.jpg" />
                     <AvatarFallback className="bg-sidebar-primary text-sidebar-primary-foreground text-xs">

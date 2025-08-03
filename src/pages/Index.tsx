@@ -67,10 +67,10 @@ const Index = () => {
           currentChatId={currentChatId}
         />
         <main className="flex-1 flex flex-col min-w-0 relative">
-          {/* Global header with sidebar trigger - only when needed */}
-          <header className="h-14 flex items-center border-b border-sidebar-border bg-sidebar-background/95 backdrop-blur supports-[backdrop-filter]:bg-sidebar-background/60 sticky top-0 z-10">
-            <SidebarTrigger className="ml-4" />
-            <div className="flex-1 text-center pr-14">
+          {/* Global header with sidebar trigger */}
+          <header className="h-14 flex items-center border-b border-sidebar-border bg-sidebar-background/95 backdrop-blur supports-[backdrop-filter]:bg-sidebar-background/60 sticky top-0 z-10 px-4">
+            <SidebarTrigger />
+            <div className="flex-1 text-center">
               <h1 className="text-lg font-semibold text-sidebar-foreground">AI Chat Assistant</h1>
             </div>
           </header>

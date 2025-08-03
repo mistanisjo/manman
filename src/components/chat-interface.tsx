@@ -75,7 +75,7 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full px-6 py-6">
+    <div className="flex flex-col h-full w-full px-6 py-6 pb-24">
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide min-h-0 max-w-4xl mx-auto w-full">
         <AnimatePresence initial={false}>
@@ -105,12 +105,14 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
 
       {/* Input Area */}
       <motion.div
-        className="py-4 flex justify-center sticky bottom-0 bg-background/80 backdrop-blur max-w-4xl mx-auto w-full"
+        className="fixed bottom-6 left-0 right-0 flex justify-center z-20 pointer-events-none"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <AIChatInput onSendMessage={handleSendMessage} />
+        <div className="pointer-events-auto">
+          <AIChatInput onSendMessage={handleSendMessage} />
+        </div>
       </motion.div>
     </div>
   );
