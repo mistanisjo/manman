@@ -16,9 +16,11 @@ const PLACEHOLDERS = [
 
 interface AIChatInputProps {
   onSendMessage?: (message: string) => void;
+  disabled?: boolean;
+  placeholder?: string;
 }
 
-const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
+const AIChatInput = ({ onSendMessage, disabled = false, placeholder }: AIChatInputProps) => {
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [showPlaceholder, setShowPlaceholder] = useState(true);
   const [isActive, setIsActive] = useState(false);
@@ -29,20 +31,23 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
   const [inputValue, setInputValue] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  // Use custom placeholder if provided
+  const currentPlaceholders = placeholder ? [placeholder] : PLACEHOLDERS;
+
   // Cycle placeholder text when input is inactive
   useEffect(() => {
-    if (isActive || inputValue) return;
+    if (isActive || inputValue || disabled) return;
 
     const interval = setInterval(() => {
       setShowPlaceholder(false);
       setTimeout(() => {
-        setPlaceholderIndex((prev) => (prev + 1) % PLACEHOLDERS.length);
+        setPlaceholderIndex((prev) => (prev + 1) % currentPlaceholders.length);
         setShowPlaceholder(true);
       }, 400);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isActive, inputValue]);
+  }, [isActive, inputValue, disabled, currentPlaceholders.length]);
 
   // Close input when clicking outside
   useEffect(() => {
@@ -59,10 +64,12 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [inputValue]);
 
-  const handleActivate = () => setIsActive(true);
+  const handleActivate = () => {
+    if (!disabled) setIsActive(true);
+  };
   
   const handleSend = () => {
-    if (inputValue.trim() && onSendMessage) {
+    if (inputValue.trim() && onSendMessage && !disabled) {
       onSendMessage(inputValue.trim());
       setInputValue("");
       setIsActive(false);
@@ -70,7 +77,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !disabled) {
       e.preventDefault();
       handleSend();
     }
@@ -152,13 +159,14 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
+              disabled={disabled}
               className="flex-1 border-0 outline-0 rounded-md py-2 text-base bg-transparent w-full font-normal text-foreground placeholder:text-muted-foreground"
               style={{ position: "relative", zIndex: 1 }}
               onFocus={handleActivate}
             />
             <div className="absolute left-0 top-0 w-full h-full pointer-events-none flex items-center px-3 py-2">
               <AnimatePresence mode="wait">
-                {showPlaceholder && !isActive && !inputValue && (
+                {showPlaceholder && !isActive && !inputValue && !disabled && (
                   <motion.span
                     key={placeholderIndex}
                     className="absolute left-0 top-1/2 -translate-y-1/2 text-muted-foreground select-none pointer-events-none"
@@ -173,7 +181,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
                     animate="animate"
                     exit="exit"
                   >
-                    {PLACEHOLDERS[placeholderIndex]
+                    {currentPlaceholders[placeholderIndex]
                       .split("")
                       .map((char, i) => (
                         <motion.span
@@ -191,9 +199,10 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
           </div>
 
           <button
-            className="p-3 rounded-full hover:bg-accent/50 transition-colors duration-200"
+            className="p-3 rounded-full hover:bg-accent/50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Voice input"
             type="button"
+            disabled={disabled}
             tabIndex={-1}
           >
             <Mic size={20} className="text-muted-foreground hover:text-foreground transition-colors" />
@@ -203,7 +212,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             title="Send"
             type="button"
             onClick={handleSend}
-            disabled={!inputValue.trim()}
+            disabled={!inputValue.trim() || disabled}
           >
             <Send size={18} />
           </button>
@@ -227,7 +236,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             },
           }}
           initial="hidden"
-          animate={isActive || inputValue ? "visible" : "hidden"}
+          animate={(isActive || inputValue) && !disabled ? "visible" : "hidden"}
           style={{ marginTop: 8 }}
         >
           <div className="flex gap-3 items-center flex-wrap">
@@ -238,6 +247,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
                   ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
                   : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
+              disabled={disabled}
               title="Hotels"
               type="button"
               onClick={(e) => {
@@ -256,6 +266,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
                   ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
                   : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
+              disabled={disabled}
               title="Flights"
               type="button"
               onClick={(e) => {
@@ -274,6 +285,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
                   ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
                   : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
+              disabled={disabled}
               title="Transfers"
               type="button"
               onClick={(e) => {
@@ -292,6 +304,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
                   ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
                   : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
+              disabled={disabled}
               title="Activities"
               type="button"
               onClick={(e) => {

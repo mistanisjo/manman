@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { 
   MessageSquare, 
-  Settings, 
   User, 
   Moon, 
   Sun, 
   Plus,
   Trash2,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  Download,
+  Upload
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
@@ -33,6 +34,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SettingsDialog } from "@/components/settings-dialog";
+import { toast } from "@/components/ui/sonner";
 
 interface ChatHistory {
   id: string;
@@ -46,6 +49,7 @@ interface AppSidebarProps {
   onSelectChat: (chatId: string) => void;
   onNewChat: () => void;
   onDeleteChat: (chatId: string) => void;
+  onExportChat?: (chatId: string) => void;
   currentChatId?: string;
 }
 
@@ -54,6 +58,7 @@ export function AppSidebar({
   onSelectChat, 
   onNewChat, 
   onDeleteChat,
+  onExportChat,
   currentChatId 
 }: AppSidebarProps) {
   const { state } = useSidebar();
@@ -64,6 +69,21 @@ export function AppSidebar({
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const handleExportChat = (chatId: string) => {
+    try {
+      onExportChat?.(chatId);
+      toast.success("Chat exported successfully!");
+    } catch (error) {
+      toast.error("Failed to export chat");
+    }
+  };
+
+  const handleImportChat = () => {
+    // This would typically open a file picker
+    // For now, just show a placeholder message
+    toast.info("Import functionality coming soon!");
   };
 
   return (
@@ -217,13 +237,24 @@ export function AppSidebar({
               align="end"
               className="w-56 bg-background/95 backdrop-blur-sm border border-border shadow-2xl rounded-lg"
             >
+              <SettingsDialog conversationId={currentChatId || ""} />
               <DropdownMenuItem className="cursor-pointer hover:bg-accent focus:bg-accent transition-colors text-foreground">
                 <User className="h-4 w-4 mr-2" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-accent focus:bg-accent transition-colors text-foreground">
-                <Settings className="h-4 w-4 mr-2" />
-                <span>Settings</span>
+              <DropdownMenuItem 
+                className="cursor-pointer hover:bg-accent focus:bg-accent transition-colors text-foreground"
+                onClick={() => currentChatId && handleExportChat(currentChatId)}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                <span>Export Chat</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="cursor-pointer hover:bg-accent focus:bg-accent transition-colors text-foreground"
+                onClick={handleImportChat}
+              >
+                <Upload className="h-4 w-4 mr-2" />
+                <span>Import Chat</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-border" />
               <DropdownMenuItem className="cursor-pointer hover:bg-destructive/15 focus:bg-destructive/15 text-destructive transition-colors">

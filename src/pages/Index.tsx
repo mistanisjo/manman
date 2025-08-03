@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { nanoid } from "nanoid";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChatInterface } from "@/components/chat-interface";
+import { openAIService } from "@/lib/openai";
 
 interface ChatHistory {
   id: string;
@@ -11,25 +13,13 @@ interface ChatHistory {
 }
 
 const Index = () => {
-  const [currentChatId, setCurrentChatId] = useState<string>("welcome");
+  const [currentChatId, setCurrentChatId] = useState<string>(() => nanoid());
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([
     {
-      id: "welcome",
-      title: "Welcome Chat",
+      id: currentChatId,
+      title: "New Chat",
       lastMessage: "Hello! I'm your AI assistant...",
       timestamp: new Date(),
-    },
-    {
-      id: "2",
-      title: "React Discussion",
-      lastMessage: "Let's talk about React components...",
-      timestamp: new Date(Date.now() - 1000 * 60 * 30),
-    },
-    {
-      id: "3",
-      title: "AI Development",
-      lastMessage: "How can I improve my coding skills?",
-      timestamp: new Date(Date.now() - 1000 * 60 * 60),
     },
   ]);
 
@@ -38,17 +28,21 @@ const Index = () => {
   };
 
   const handleNewChat = () => {
+    const newChatId = nanoid();
     const newChat: ChatHistory = {
-      id: Date.now().toString(),
+      id: newChatId,
       title: "New Chat",
       lastMessage: "Start a conversation...",
       timestamp: new Date(),
     };
     setChatHistory(prev => [newChat, ...prev]);
-    setCurrentChatId(newChat.id);
+    setCurrentChatId(newChatId);
   };
 
   const handleDeleteChat = (chatId: string) => {
+    // Clear the conversation from OpenAI service
+    openAIService.clearConversation(chatId);
+    
     const remainingChats = chatHistory.filter(chat => chat.id !== chatId);
     setChatHistory(remainingChats);
     
@@ -56,15 +50,46 @@ const Index = () => {
       setCurrentChatId(remainingChats[0].id);
     } else if (remainingChats.length === 0) {
       // Create a new default chat if all chats are deleted
+      const newChatId = nanoid();
       const defaultChat = {
-        id: "welcome",
-        title: "Welcome Chat",
+        id: newChatId,
+        title: "New Chat",
         lastMessage: "Hello! I'm your AI assistant...",
         timestamp: new Date(),
       };
       setChatHistory([defaultChat]);
-      setCurrentChatId("welcome");
+      setCurrentChatId(newChatId);
     }
+  };
+
+  const handleUpdateChatTitle = (chatId: string, title: string) => {
+    setChatHistory(prev => 
+      prev.map(chat => 
+        chat.id === chatId 
+          ? { ...chat, title, timestamp: new Date() }
+          : chat
+      )
+    );
+  };
+
+  const handleExportChat = (chatId: string) => {
+    const conversation = openAIService.exportConversation(chatId);
+    const chatData = {
+      id: chatId,
+      title: chatHistory.find(chat => chat.id === chatId)?.title || "Exported Chat",
+      messages: conversation,
+      exportedAt: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(chatData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `chat-${chatData.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -75,6 +100,7 @@ const Index = () => {
           onSelectChat={handleSelectChat}
           onNewChat={handleNewChat}
           onDeleteChat={handleDeleteChat}
+          onExportChat={handleExportChat}
           currentChatId={currentChatId}
         />
         <main className="flex-1 flex flex-col min-w-0 relative overflow-hidden">
@@ -86,7 +112,10 @@ const Index = () => {
             </div>
           </header>
           <div className="flex-1 relative">
-            <ChatInterface currentChatId={currentChatId} />
+            <ChatInterface 
+              currentChatId={currentChatId} 
+              onUpdateChatTitle={handleUpdateChatTitle}
+            />
           </div>
         </main>
       </div>
