@@ -135,12 +135,12 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
         {/* Input Row */}
         <div className="flex items-center gap-2 p-3 rounded-full max-w-4xl w-full">
           <button
-            className="p-3 rounded-full hover:bg-white/5 transition-colors backdrop-blur-sm"
+            className="p-3 rounded-full hover:bg-accent transition-colors"
             title="Attach file"
             type="button"
             tabIndex={-1}
           >
-            <Paperclip size={20} className="text-foreground/70" />
+            <Paperclip size={20} className="text-muted-foreground hover:text-foreground" />
           </button>
 
           {/* Text Input & Placeholder */}
@@ -189,12 +189,12 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
           </div>
 
           <button
-            className="p-3 rounded-full hover:bg-white/5 transition-colors backdrop-blur-sm"
+            className="p-3 rounded-full hover:bg-accent transition-colors"
             title="Voice input"
             type="button"
             tabIndex={-1}
           >
-            <Mic size={20} className="text-foreground/70" />
+            <Mic size={20} className="text-muted-foreground hover:text-foreground" />
           </button>
           <button
             className="flex items-center gap-1 bg-primary hover:bg-primary/80 text-primary-foreground p-3 rounded-full font-medium justify-center transition-colors"
@@ -233,8 +233,8 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             <button
               className={`flex items-center gap-1 px-4 py-2 rounded-full transition-all font-medium group ${
                 thinkActive
-                  ? "glass border border-glass-border text-foreground"
-                  : "bg-white/5 text-foreground/70 hover:bg-white/10"
+                  ? "bg-primary/10 border border-primary/20 text-primary"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               }`}
               title="Think"
               type="button"
@@ -244,7 +244,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
               }}
             >
               <Lightbulb
-                className="group-hover:text-yellow-400 transition-colors"
+                className="group-hover:text-primary transition-colors"
                 size={18}
               />
               Think
@@ -254,8 +254,8 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             <motion.button
               className={`flex items-center px-4 gap-1 py-2 rounded-full transition font-medium whitespace-nowrap overflow-hidden justify-start ${
                 deepSearchActive
-                  ? "glass border border-glass-border text-foreground"
-                  : "bg-white/5 text-foreground/70 hover:bg-white/10"
+                  ? "bg-primary/10 border border-primary/20 text-primary"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               }`}
               title="Deep Search"
               type="button"

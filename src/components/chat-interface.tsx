@@ -75,9 +75,9 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full max-w-6xl mx-auto px-4 py-6">
+    <div className="flex flex-col h-full w-full px-6 py-6">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 space-y-4 scrollbar-hide min-h-0">
+      <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide min-h-0 max-w-4xl mx-auto w-full">
         <AnimatePresence initial={false}>
           {messages.map((message) => (
             <ChatBubble
@@ -105,7 +105,7 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
 
       {/* Input Area */}
       <motion.div
-        className="py-4 flex justify-center sticky bottom-0 bg-background/80 backdrop-blur"
+        className="py-4 flex justify-center sticky bottom-0 bg-background/80 backdrop-blur max-w-4xl mx-auto w-full"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
