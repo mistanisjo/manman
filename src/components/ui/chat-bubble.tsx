@@ -34,7 +34,7 @@ const ChatBubble = ({ message, isUser, timestamp, isTyping }: ChatBubbleProps) =
   return (
     <motion.div
       className={cn(
-        "flex items-start gap-3 mb-6 animate-fade-in",
+        "flex items-start gap-3 mb-6 animate-fade-in w-full",
         isUser ? "flex-row-reverse" : "flex-row"
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ const ChatBubble = ({ message, isUser, timestamp, isTyping }: ChatBubbleProps) =
       {/* Avatar */}
       <motion.div
         className={cn(
-          "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center",
+          "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-sm",
           isUser 
             ? "user-bubble" 
             : "ai-bubble"
@@ -63,7 +63,7 @@ const ChatBubble = ({ message, isUser, timestamp, isTyping }: ChatBubbleProps) =
       {/* Message Content */}
       <motion.div
         className={cn(
-          "max-w-[70%] rounded-2xl px-4 py-3 relative",
+          "max-w-[70%] rounded-2xl px-4 py-3 relative shadow-sm",
           isUser
             ? "user-bubble rounded-tr-sm"
             : "ai-bubble rounded-tl-sm"
@@ -76,7 +76,7 @@ const ChatBubble = ({ message, isUser, timestamp, isTyping }: ChatBubbleProps) =
           <TypingIndicator />
         ) : (
           <p className={cn(
-            "text-sm leading-relaxed whitespace-pre-wrap",
+            "text-sm leading-relaxed whitespace-pre-wrap break-words",
             isUser ? "text-user-foreground" : "text-ai-foreground"
           )}>
             {message}

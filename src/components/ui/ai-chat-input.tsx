@@ -126,7 +126,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
   return (
     <motion.div
       ref={wrapperRef}
-      className="w-full max-w-5xl bg-card border border-border rounded-[32px] shadow-lg"
+      className="w-full bg-card/95 backdrop-blur-md border border-border/50 rounded-[32px] shadow-xl shadow-black/5 dark:shadow-black/20"
       variants={containerVariants}
       animate={isActive || inputValue ? "expanded" : "collapsed"}
       initial="collapsed"
@@ -135,14 +135,14 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
     >
       <div className="flex flex-col items-stretch w-full h-full">
         {/* Input Row */}
-        <div className="flex items-center gap-2 p-3 rounded-full max-w-5xl w-full bg-card">
+        <div className="flex items-center gap-2 p-3 rounded-full w-full">
           <button
-            className="p-3 rounded-full hover:bg-accent transition-colors"
+            className="p-3 rounded-full hover:bg-accent/50 transition-colors duration-200"
             title="Attach file"
             type="button"
             tabIndex={-1}
           >
-            <Paperclip size={20} className="text-muted-foreground hover:text-foreground" />
+            <Paperclip size={20} className="text-muted-foreground hover:text-foreground transition-colors" />
           </button>
 
           {/* Text Input & Placeholder */}
@@ -191,15 +191,15 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
           </div>
 
           <button
-            className="p-3 rounded-full hover:bg-accent transition-colors"
+            className="p-3 rounded-full hover:bg-accent/50 transition-colors duration-200"
             title="Voice input"
             type="button"
             tabIndex={-1}
           >
-            <Mic size={20} className="text-muted-foreground hover:text-foreground" />
+            <Mic size={20} className="text-muted-foreground hover:text-foreground transition-colors" />
           </button>
           <button
-            className="flex items-center gap-1 bg-primary hover:bg-primary/80 text-primary-foreground p-3 rounded-full font-medium justify-center transition-colors"
+            className="flex items-center gap-1 bg-primary hover:bg-primary/90 text-primary-foreground p-3 rounded-full font-medium justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Send"
             type="button"
             onClick={handleSend}
@@ -235,8 +235,8 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             <button
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
                 hotelsActive
-                  ? "bg-primary/10 border border-primary/20 text-primary"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
+                  : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
               title="Hotels"
               type="button"
@@ -253,8 +253,8 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             <button
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
                 flightsActive
-                  ? "bg-primary/10 border border-primary/20 text-primary"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
+                  : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
               title="Flights"
               type="button"
@@ -271,8 +271,8 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             <button
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
                 transfersActive
-                  ? "bg-primary/10 border border-primary/20 text-primary"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
+                  : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
               title="Transfers"
               type="button"
@@ -289,8 +289,8 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
             <button
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
                 activitiesActive
-                  ? "bg-primary/10 border border-primary/20 text-primary"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  ? "bg-primary/15 border border-primary/30 text-primary shadow-sm"
+                  : "bg-secondary/80 text-secondary-foreground hover:bg-secondary border border-transparent"
               }`}
               title="Activities"
               type="button"

@@ -67,6 +67,10 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Chat layout tokens - Light mode */
+    --chat-sidebar-width: 20rem;
+    --chat-sidebar-width-collapsed: 4rem;
   }
 
   .dark {
@@ -127,6 +131,10 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Chat layout tokens - Dark mode */
+    --chat-sidebar-width: 20rem;
+    --chat-sidebar-width-collapsed: 4rem;
   }
 }
 
@@ -137,6 +145,21 @@ All colors MUST be HSL.
 
   body {
     @apply bg-gradient-to-br from-[hsl(var(--chat-bg-from))] to-[hsl(var(--chat-bg-to))] text-foreground transition-colors duration-300;
+  }
+  
+  /* Scrollbar styling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Smooth transitions for layout changes */
+  .sidebar-transition {
+    transition: margin-left 200ms ease-linear, width 200ms ease-linear;
   }
 }
 
@@ -157,5 +180,17 @@ All colors MUST be HSL.
     backdrop-filter: blur(var(--glass-blur));
     border: 1px solid hsla(var(--glass-border));
     color: hsl(var(--ai-foreground));
+  }
+  
+  /* Enhanced glass effect for input */
+  .glass-input {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(16px);
+    border: 1px solid hsla(var(--glass-border));
+    box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.1);
+  }
+  
+  .dark .glass-input {
+    box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.3);
   }
 }

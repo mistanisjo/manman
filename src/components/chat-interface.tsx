@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AIChatInput } from "@/components/ui/ai-chat-input";
 import { ChatBubble } from "@/components/ui/chat-bubble";
+import { useSidebar } from "@/components/ui/sidebar";
 
 interface Message {
   id: string;
@@ -35,6 +36,7 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { state: sidebarState } = useSidebar();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -75,9 +77,10 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full px-8 py-6 pb-32">
+    <div className="flex flex-col h-full w-full relative">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide min-h-0 max-w-5xl mx-auto w-full">
+      <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide min-h-0 px-4 md:px-8 py-6 pb-32">
+        <div className="max-w-4xl mx-auto w-full space-y-4">
         <AnimatePresence initial={false}>
           {messages.map((message) => (
             <ChatBubble
@@ -101,16 +104,23 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
         </AnimatePresence>
         
         <div ref={messagesEndRef} />
+        </div>
       </div>
 
       {/* Input Area */}
       <motion.div
-        className="fixed bottom-6 left-0 right-0 flex justify-center z-20 pointer-events-none"
+        className={`fixed bottom-6 z-30 pointer-events-none transition-all duration-200 ease-linear ${
+          sidebarState === "expanded" 
+            ? "left-80 right-6" 
+            : sidebarState === "collapsed" 
+            ? "left-16 right-6" 
+            : "left-6 right-6"
+        }`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <div className="pointer-events-auto">
+        <div className="pointer-events-auto w-full max-w-4xl mx-auto">
           <AIChatInput onSendMessage={handleSendMessage} />
         </div>
       </motion.div>

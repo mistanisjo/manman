@@ -66,15 +66,15 @@ const Index = () => {
           onDeleteChat={handleDeleteChat}
           currentChatId={currentChatId}
         />
-        <main className="flex-1 flex flex-col min-w-0 relative">
+        <main className="flex-1 flex flex-col min-w-0 relative overflow-hidden">
           {/* Global header with sidebar trigger */}
-          <header className="h-14 flex items-center border-b border-sidebar-border bg-sidebar-background/95 backdrop-blur supports-[backdrop-filter]:bg-sidebar-background/60 sticky top-0 z-10 px-4">
+          <header className="h-14 flex items-center border-b border-sidebar-border bg-sidebar-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-sidebar-background/80 sticky top-0 z-20 px-4 shadow-sm">
             <SidebarTrigger />
             <div className="flex-1 text-center">
               <h1 className="text-lg font-semibold text-sidebar-foreground">AI Chat Assistant</h1>
             </div>
           </header>
-          <div className="flex-1 overflow-hidden relative">
+          <div className="flex-1 relative">
             <ChatInterface currentChatId={currentChatId} />
           </div>
         </main>

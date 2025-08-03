@@ -67,7 +67,7 @@ export function AppSidebar({
   };
 
   return (
-    <Sidebar className={collapsed ? "w-16" : "w-80"} collapsible="icon">
+    <Sidebar className="transition-all duration-200 ease-linear" collapsible="icon">
       <SidebarContent className="flex flex-col h-full">
         {/* Header */}
         <div className={`p-4 border-b border-sidebar-border ${collapsed ? "flex flex-col items-center" : ""}`}>
@@ -85,7 +85,7 @@ export function AppSidebar({
           {!collapsed && (
             <Button
               onClick={onNewChat}
-              className="w-full bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground"
+              className="w-full bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground transition-colors duration-200"
               size="sm"
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -97,7 +97,7 @@ export function AppSidebar({
             <div className="flex flex-col items-center space-y-2">
               <Button
                 onClick={onNewChat}
-                className="w-10 h-10 bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground p-0 rounded-full"
+                className="w-10 h-10 bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground p-0 rounded-full transition-colors duration-200"
                 size="sm"
                 title="New Chat"
               >
@@ -120,8 +120,8 @@ export function AppSidebar({
                     asChild
                     className={`group relative cursor-pointer transition-all duration-200 ${
                       currentChatId === chat.id
-                        ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                        : "hover:bg-sidebar-accent/50"
+                        ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+                        : "hover:bg-sidebar-accent/60"
                     } ${collapsed ? "justify-center p-2 rounded-full w-10 h-10 mx-auto" : "p-3 rounded-lg"}`}
                     onMouseEnter={() => setHoveredChat(chat.id)}
                     onMouseLeave={() => setHoveredChat(null)}
@@ -146,7 +146,7 @@ export function AppSidebar({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
                           onClick={(e) => {
                             e.stopPropagation();
                             onDeleteChat(chat.id);
@@ -170,7 +170,7 @@ export function AppSidebar({
             variant="ghost"
             size="sm"
             onClick={toggleTheme}
-            className={`${collapsed ? "w-10 h-10 p-0 rounded-full" : "w-full justify-start"} text-sidebar-foreground hover:bg-sidebar-accent`}
+            className={`${collapsed ? "w-10 h-10 p-0 rounded-full" : "w-full justify-start"} text-sidebar-foreground hover:bg-sidebar-accent/60 transition-colors duration-200`}
             title={collapsed ? (theme === "dark" ? "Light Mode" : "Dark Mode") : ""}
           >
             {theme === "dark" ? (
@@ -188,7 +188,7 @@ export function AppSidebar({
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className={`${collapsed ? "w-10 h-10 p-0 rounded-full" : "w-full justify-start p-2 h-auto"} hover:bg-sidebar-accent`}
+                className={`${collapsed ? "w-10 h-10 p-0 rounded-full" : "w-full justify-start p-2 h-auto"} hover:bg-sidebar-accent/60 transition-colors duration-200`}
               >
                 <div className={`flex items-center gap-3 ${collapsed ? "justify-center" : "w-full"}`}>
                   <Avatar className="h-8 w-8">
@@ -215,18 +215,18 @@ export function AppSidebar({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="w-56 bg-sidebar-background border-sidebar-border"
+              className="w-56 bg-sidebar-background border-sidebar-border shadow-lg"
             >
-              <DropdownMenuItem className="cursor-pointer hover:bg-sidebar-accent focus:bg-sidebar-accent">
+              <DropdownMenuItem className="cursor-pointer hover:bg-sidebar-accent/60 focus:bg-sidebar-accent/60 transition-colors">
                 <User className="h-4 w-4 mr-2" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-sidebar-accent focus:bg-sidebar-accent">
+              <DropdownMenuItem className="cursor-pointer hover:bg-sidebar-accent/60 focus:bg-sidebar-accent/60 transition-colors">
                 <Settings className="h-4 w-4 mr-2" />
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-sidebar-border" />
-              <DropdownMenuItem className="cursor-pointer hover:bg-destructive/10 focus:bg-destructive/10 text-destructive">
+              <DropdownMenuItem className="cursor-pointer hover:bg-destructive/15 focus:bg-destructive/15 text-destructive transition-colors">
                 <LogOut className="h-4 w-4 mr-2" />
                 <span>Sign Out</span>
               </DropdownMenuItem>
