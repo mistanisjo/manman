@@ -124,7 +124,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
   return (
     <motion.div
       ref={wrapperRef}
-      className="w-full max-w-4xl glass rounded-[32px] border border-glass-border"
+      className="w-full max-w-4xl bg-card border border-border rounded-[32px] shadow-lg"
       variants={containerVariants}
       animate={isActive || inputValue ? "expanded" : "collapsed"}
       initial="collapsed"
@@ -133,7 +133,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
     >
       <div className="flex flex-col items-stretch w-full h-full">
         {/* Input Row */}
-        <div className="flex items-center gap-2 p-3 rounded-full max-w-4xl w-full">
+        <div className="flex items-center gap-2 p-3 rounded-full max-w-4xl w-full bg-card">
           <button
             className="p-3 rounded-full hover:bg-accent transition-colors"
             title="Attach file"
