@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useState, useEffect, useRef } from "react";
-import { Lightbulb, Mic, Globe, Paperclip, Send } from "lucide-react";
+import { Building2, Plane, Car, MapPin, Paperclip, Send, Mic } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const PLACEHOLDERS = [
@@ -22,8 +22,10 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [showPlaceholder, setShowPlaceholder] = useState(true);
   const [isActive, setIsActive] = useState(false);
-  const [thinkActive, setThinkActive] = useState(false);
-  const [deepSearchActive, setDeepSearchActive] = useState(false);
+  const [hotelsActive, setHotelsActive] = useState(false);
+  const [flightsActive, setFlightsActive] = useState(false);
+  const [transfersActive, setTransfersActive] = useState(false);
+  const [activitiesActive, setActivitiesActive] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -81,7 +83,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
       transition: { type: "spring" as const, stiffness: 120, damping: 18 },
     },
     expanded: {
-      height: 128,
+      height: 140,
       boxShadow: "0 8px 32px 0 rgba(0,0,0,0.16)",
       transition: { type: "spring" as const, stiffness: 120, damping: 18 },
     },
@@ -124,7 +126,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
   return (
     <motion.div
       ref={wrapperRef}
-      className="w-full max-w-4xl bg-card border border-border rounded-[32px] shadow-lg"
+      className="w-full max-w-5xl bg-card border border-border rounded-[32px] shadow-lg"
       variants={containerVariants}
       animate={isActive || inputValue ? "expanded" : "collapsed"}
       initial="collapsed"
@@ -133,7 +135,7 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
     >
       <div className="flex flex-col items-stretch w-full h-full">
         {/* Input Row */}
-        <div className="flex items-center gap-2 p-3 rounded-full max-w-4xl w-full bg-card">
+        <div className="flex items-center gap-2 p-3 rounded-full max-w-5xl w-full bg-card">
           <button
             className="p-3 rounded-full hover:bg-accent transition-colors"
             title="Attach file"
@@ -228,60 +230,78 @@ const AIChatInput = ({ onSendMessage }: AIChatInputProps) => {
           animate={isActive || inputValue ? "visible" : "hidden"}
           style={{ marginTop: 8 }}
         >
-          <div className="flex gap-3 items-center">
-            {/* Think Toggle */}
+          <div className="flex gap-3 items-center flex-wrap">
+            {/* Hotels Toggle */}
             <button
-              className={`flex items-center gap-1 px-4 py-2 rounded-full transition-all font-medium group ${
-                thinkActive
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
+                hotelsActive
                   ? "bg-primary/10 border border-primary/20 text-primary"
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               }`}
-              title="Think"
+              title="Hotels"
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setThinkActive((a) => !a);
+                setHotelsActive((a) => !a);
               }}
             >
-              <Lightbulb
-                className="group-hover:text-primary transition-colors"
-                size={18}
-              />
-              Think
+              <Building2 size={18} />
+              Hotels
             </button>
 
-            {/* Deep Search Toggle */}
-            <motion.button
-              className={`flex items-center px-4 gap-1 py-2 rounded-full transition font-medium whitespace-nowrap overflow-hidden justify-start ${
-                deepSearchActive
+            {/* Flights Toggle */}
+            <button
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
+                flightsActive
                   ? "bg-primary/10 border border-primary/20 text-primary"
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               }`}
-              title="Deep Search"
+              title="Flights"
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setDeepSearchActive((a) => !a);
-              }}
-              initial={false}
-              animate={{
-                width: deepSearchActive ? 125 : 36,
-                paddingLeft: deepSearchActive ? 8 : 9,
+                setFlightsActive((a) => !a);
               }}
             >
-              <div className="flex-1">
-                <Globe size={18} />
-              </div>
-              <motion.span
-                className="pb-[2px]"
-                initial={false}
-                animate={{
-                  opacity: deepSearchActive ? 1 : 0,
-                }}
-              >
-                Deep Search
-              </motion.span>
-            </motion.button>
+              <Plane size={18} />
+              Flights
+            </button>
+
+            {/* Transfers Toggle */}
+            <button
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
+                transfersActive
+                  ? "bg-primary/10 border border-primary/20 text-primary"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              }`}
+              title="Transfers"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setTransfersActive((a) => !a);
+              }}
+            >
+              <Car size={18} />
+              Transfers
+            </button>
+
+            {/* Activities Toggle */}
+            <button
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all font-medium group ${
+                activitiesActive
+                  ? "bg-primary/10 border border-primary/20 text-primary"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              }`}
+              title="Activities"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActivitiesActive((a) => !a);
+              }}
+            >
+              <MapPin size={18} />
+              Activities
+            </button>
           </div>
         </motion.div>
       </div>

@@ -75,9 +75,9 @@ const ChatInterface = ({ currentChatId }: ChatInterfaceProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full px-6 py-6 pb-24">
+    <div className="flex flex-col h-full w-full px-8 py-6 pb-32">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide min-h-0 max-w-4xl mx-auto w-full">
+      <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide min-h-0 max-w-5xl mx-auto w-full">
         <AnimatePresence initial={false}>
           {messages.map((message) => (
             <ChatBubble
